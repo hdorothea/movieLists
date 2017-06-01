@@ -19,7 +19,7 @@ export class AppComponent {
   constructor() {
   }
 
-  toggleBarView(event) {
+  toggleBarView() {
     this.showBar = !this.showBar;
   }
 
