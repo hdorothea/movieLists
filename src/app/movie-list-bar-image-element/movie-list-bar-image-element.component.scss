@@ -1,0 +1,13 @@
+.bar-image {
+    width:45px;
+    height:65px;
+    display: flex;
+    flex-wrap:wrap;
+    align-items:flex-start;
+    border: 1px solid black;
+}
+
+img {
+    width: 50%;
+    height: auto;
+}

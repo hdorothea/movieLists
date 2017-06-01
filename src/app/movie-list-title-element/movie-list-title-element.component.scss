@@ -1,0 +1,25 @@
+.element {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
+}
+
+.element:hover {
+    background-color: gainsboro;
+}
+
+.selected {
+    background-color: #c8cfd6;
+}
+
+
+.x {
+    position: absolute;
+    top:0;
+    right:0;
+    width:1em;
+    height:1em;
+}

@@ -1,0 +1,42 @@
+.search-box {
+    position: relative;
+}
+
+input {
+    font-family:inherit;
+    font-size:inherit;
+    width:100%;
+}
+
+.suggestion-box {
+    width: 100%;
+    max-height:26em;
+    position: absolute;
+    z-index:1;
+}
+
+.movie-logo {
+    padding-right: 0.2em;
+    padding-left: 1em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+
+
+.suggestion-element {
+    display: flex;
+    justify-content: space-between;
+}
+
+#input-box {
+    position: relative;
+}
+
+#search-icon {
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    right:0.5em;
+    top:25%;
+}

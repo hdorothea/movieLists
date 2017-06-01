@@ -1,0 +1,29 @@
+.title-input {
+    margin-top:1rem;
+    position: relative;
+    font-size:1.5em;
+    line-height: 150%;
+}
+
+#plus-icon {
+    position: absolute;
+    right:0.5rem;
+    color: gray;
+    top:0;
+    display: inline-block
+}
+
+
+input {
+    border:0;
+    border-bottom: 5px solid orange;
+    font-size:inherit;
+    width: 100%;
+
+}
+
+input:focus {
+    outline: none;
+    border: 0;
+    border-bottom: 5px solid gray;
+}
