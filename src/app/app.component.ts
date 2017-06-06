@@ -5,8 +5,9 @@ import { MovieListsService } from './movie-lists.service';
   selector: 'app-root',
   template: `
     <div id="header">
-      <span  (click)="toggleBarView()" id="toggle-bar-view-button"> ≡ </span>
-      MovieLists
+      <span class="app-title" (click)="toggleBarView()" id="toggle-bar-view-button"> ≡ </span>
+      <span class="app-title"> MovieLists </span>
+      <app-login></app-login>
     </div>
     <app-bar-view [class]="showBar? 'show':'hide'"></app-bar-view>
     <router-outlet></router-outlet>

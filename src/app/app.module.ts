@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -24,9 +25,12 @@ import { ListViewComponent } from './list-view/list-view.component';
 import { MovieListTitleComponent } from './movie-list-title/movie-list-title.component';
 import { MovieListBarImageElementComponent } from './movie-list-bar-image-element/movie-list-bar-image-element.component';
 import { ReadonlyMovieListComponent } from './readonly-movie-list/readonly-movie-list.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 
-const appRoutes: Routes = [{path: ':movielistid', component: ListViewComponent},
+const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
+                           {path: ':movielistid', component: ListViewComponent},
                            {path: 'detail/:movieid', component: MovieDetailComponent},
                            {path: ':title/:id/movies', component: ReadonlyMovieListComponent}];
 
@@ -45,9 +49,12 @@ const appRoutes: Routes = [{path: ':movielistid', component: ListViewComponent},
     ListViewComponent,
     MovieListTitleComponent,
     MovieListBarImageElementComponent,
-    ReadonlyMovieListComponent
+    ReadonlyMovieListComponent,
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

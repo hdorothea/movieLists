@@ -43,3 +43,6 @@ Thumbs.db
 
 #api keys and co.
 /src/app/app.config.*
+
+#local server config
+/.env
