@@ -8,33 +8,29 @@ import { validateUsernameUnique, validatePasswordConfirmed } from './validators'
   template: `
     <form [formGroup]="signupForm" novallidate (ngSubmit)="submit()">
       <input type="text" formControlName="username" placeholder="username"/>
-      <div *ngIf="signupForm.controls.username.errors">
-        <div *ngIf="signupForm.controls.username.errors.required && signupForm.controls.username.touched">
+      <div *ngIf="controls.username.errors">
+        <div *ngIf="controls.username.errors.required && controls.username.touched">
           Username is required
         </div>
-        <div *ngIf="signupForm.controls.username.errors.minlength && signupForm.controls.username.touched">
-          Username needs to be at least {{signupForm.controls.username.errors.minlength['requiredLength']}} characters long
+        <div *ngIf="controls.username.errors.minlength && controls.username.touched">
+          Username needs to be at least {{controls.username.errors.minlength['requiredLength']}} characters long
         </div>
       </div>
-      <form [formGroup]="signupForm.get('passwords')">
-        <input type="text" formControlName="password" placeholder="password"/>
-        <div *ngIf="signupForm.get('passwords').controls.password.errors">
-          <div 
-          *ngIf="signupForm.get('passwords').controls.password.errors.required && signupForm.get('passwords').controls.password.touched">
-            Password is required
-          </div>
-          <div 
-          *ngIf="signupForm.get('passwords').controls.password.errors.minlength && signupForm.get('passwords').controls.password.touched">
-            Password needs to be at least 
-            {{signupForm.get('passwords').controls.password.errors.minlength['requiredLength']}} 
-            characters long
-          </div>
+      <input type="text" formControlName="password" placeholder="password"/>
+      <div *ngIf="controls.password.errors">
+        <div 
+        *ngIf="controls.password.errors.required && controls.password.touched">
+          Password is required
         </div>
-        <input type="text" formControlName="confirmedPassword" placeholder="confirm password"/>
-        <div *ngIf="signupForm.get('passwords').errors && signupForm.get('passwords').controls.confirmedPassword.touched">
-          Passwords need to match
+        <div 
+        *ngIf="controls.password.errors.minlength && controls.password.touched">
+          Password needs to be at least {{controls.password.errors.minlength['requiredLength']}} characters long
         </div>
-      </form>
+      </div>
+      <input type="text" formControlName="confirmedPassword" placeholder="confirm password"/>
+      <div *ngIf="signupForm.errors && controls.confirmedPassword.touched">
+        Passwords need to match
+      </div>
       <input type="submit"/>
     </form>
   `,
@@ -42,23 +38,21 @@ import { validateUsernameUnique, validatePasswordConfirmed } from './validators'
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  username: string;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {
+    this.signupForm = this.formBuilder.group({
+      'username': ['', [Validators.required, Validators.minLength(8)], [validateUsernameUnique]],
+      'password': ['', [Validators.required, Validators.minLength(8)]],
+      'confirmedPassword': ['', [Validators.required, Validators.minLength(8)]]
+    }, { validator: validatePasswordConfirmed }
+    );
+  }
 
-  minlength() {
-
+  get controls() {
+    return this.signupForm.controls;
   }
 
   ngOnInit() {
-    this.signupForm = this.formBuilder.group({
-      'username': ['', [Validators.required, Validators.minLength(8)], [validateUsernameUnique]],
-      'passwords': this.formBuilder.group({
-        'password': ['', [Validators.required, Validators.minLength(8)]],
-        'confirmedPassword': ['', [Validators.required, Validators.minLength(8)]]
-      }, {validator: validatePasswordConfirmed})
-    }
-    );
 
   }
 
