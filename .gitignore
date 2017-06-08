@@ -45,4 +45,4 @@ Thumbs.db
 /src/app/app.config.*
 
 #local server config
-/.env
+.env
