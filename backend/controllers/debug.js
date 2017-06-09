@@ -1,6 +1,6 @@
 // callbacks to make debugging easier
 
-const db = require('./dbConnect');
+const db = require('../db/dbConnect');
 
 module.exports = {
   getMovielistsTable(req, res) {

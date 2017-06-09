@@ -1,8 +1,9 @@
 const express = require('express');
-const debug = require('./debug');
-const main = require('./main');
-const user = require('./user');
-const movielists = require('./movielists');
+const debug = require('./controllers/debug');
+const main = require('./controllers/main');
+const user = require('./controllers/user');
+const movielists = require('./controllers/movielists');
+const tmdb = require('./controllers/tmdb');
 
 const router = express.Router();
 
@@ -18,6 +19,11 @@ router.route('/movielists/:id').delete(movielists.deleteMovielist);
 router.route('/movielists/:id').put(movielists.updateMovielistTitle);
 router.route('/movielists/:id/:movie_id').delete(movielists.deleteMovie);
 router.route('/movielists/:id/:movie_id').post(movielists.addMovie);
+
+router.route('/movies/search').get(tmdb.queryMovies);
+router.route('/movies/:id').get(tmdb.getMovie);
+
+router.route('/director/movies').get(tmdb.getDirectorMovies);
 
 
 router.route('/*').get(main);

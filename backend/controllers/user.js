@@ -1,6 +1,6 @@
 // callbacks for user login/signup managment
 const passwordHashFunc = require('password-hash');
-const db = require('./dbConnect');
+const db = require('../db/dbConnect');
 
 
 function parseUsernamePassword(req) {
