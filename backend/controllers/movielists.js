@@ -1,20 +1,22 @@
 // callbacks to get and post data to the movielists and movies tables
 
 const db = require('../db/dbConnect');
+const fallbackLists = require('../db/fallbackData').fallbackLists;
 
 module.exports = {
   getMovielists(req, res) {
     db.any(`SELECT (mls.name, array_agg(ms.movie_id))
             FROM movielistsdb.movielists mls
             INNER JOIN movielistsdb.movies ms on ms.movielist_id = mls.id
-            WHERE owner_id = $1 
+            WHERE owner_id = $1
             OR creator_cookie =$2
             GROUP BY mls.id`, [req.session.userId, req.session.cookie])
       .then((data) => {
-        console.log(req.session);
-        console.log(req.sessionID);
-        console.log(data);
-        return res.json(data);
+        if (data) {
+          return res.json(data);
+        } else {
+          return res.json(fallbackLists);
+        }
       })
       .catch(err => console.log(err));
   },
