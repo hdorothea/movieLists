@@ -81,8 +81,8 @@ export class ListsService {
 
         this._lists$.next(newLists);
 
-        if (listToDelete === this.currentListService.list) {
-          this.currentListService.list = this._lists$.getValue()[0];
+        if (listToDelete === this.currentListService.getList()) {
+          this.currentListService.setList(this._lists$.getValue()[0]);
         }
       }
       );

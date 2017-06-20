@@ -14,7 +14,11 @@ export class CurrentListService {
 
   setList(list: List) {
     this._list$.next(list);
-    this.router.navigate([`list/${this._list$.getValue().id}`]);
+    this.router.navigate([`list/${this.getList().id}`]);
+  }
+
+  getList() {
+    return this._list$.getValue();
   }
 
   constructor(private router: Router, private http: Http) {
@@ -24,14 +28,14 @@ export class CurrentListService {
 
   _updateTitleBackend(newTitle: string) {
     const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-    return this.http.put(`${environment.BASE_URL}/movielists/${this._list$.getValue().id}`, { title: newTitle }, options).toPromise();
+    return this.http.put(`${environment.BASE_URL}/movielists/${this.getList().id}`, { title: newTitle }, options).toPromise();
   }
 
 
   updateTitle(newTitle: string) {
     this._updateTitleBackend(newTitle)
       .then(() => {
-        const newList = this._list$.getValue();
+        const newList = this.getList();
         newList.title = newTitle;
         this._list$.next(newList);
       })
@@ -40,27 +44,27 @@ export class CurrentListService {
 
   _addMovieBackend(movieIdToAdd: number) {
     const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-    return this.http.post(`${environment.BASE_URL}/movielists/${this._list$.getValue().id}/${movieIdToAdd}`, {}, options).toPromise();
+    return this.http.post(`${environment.BASE_URL}/movielists/${this.getList().id}/${movieIdToAdd}`, {}, options).toPromise();
   }
 
   addMovie(movieIdToAdd: number) {
     this._addMovieBackend(movieIdToAdd)
       .then(() => {
-        const newList = this._list$.getValue();
+        const newList = this.getList();
         newList.movieIds.push(movieIdToAdd);
         this._list$.next(newList);
       });
   }
 
   _removeMovieBackend(movieIdToDelete: number) {
-    return this.http.delete(`${environment.BASE_URL}/movielists/${this._list$.getValue().id}/$movieIdToDelete`).toPromise();
+    return this.http.delete(`${environment.BASE_URL}/movielists/${this.getList().id}/$movieIdToDelete`).toPromise();
   }
 
 
   removeMovie(movieIdToDelete: number) {
     this._removeMovieBackend(movieIdToDelete)
       .then(() => {
-        const newList = this._list$.getValue();
+        const newList = this.getList();
         newList.movieIds.forEach((id, index) => {
           if (movieIdToDelete === id) {
             newList.movieIds.splice(index, 1);
