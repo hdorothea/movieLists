@@ -4,7 +4,7 @@ const db = require('../db/dbConnect');
 
 module.exports = {
   getMovielistsTable(req, res) {
-    db.any('SELECT * FROM movielistsdb.movielists', [true]).then(data => res.json((data)));
+    db.any('SELECT * FROM movielistsdb.lists', [true]).then(data => res.json((data)));
   },
 
   getMoviesTable(req, res) {

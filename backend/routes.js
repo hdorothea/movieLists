@@ -2,7 +2,7 @@ const express = require('express');
 const debug = require('./controllers/debug');
 const main = require('./controllers/main');
 const user = require('./controllers/user');
-const movielists = require('./controllers/movielists');
+const lists = require('./controllers/lists');
 const tmdb = require('./controllers/tmdb');
 
 const router = express.Router();
@@ -13,17 +13,17 @@ router.route('/db/users').get(debug.getUsersTable);
 router.route('/session').get(debug.getSession);
 router.route('/login').post(user.login);
 router.route('/signup').post(user.signup);
-router.route('/movielists').get(movielists.getMovielists);
-router.route('/movielists/:name').post(movielists.insertMovielist);
-router.route('/movielists/:id').delete(movielists.deleteMovielist);
-router.route('/movielists/:id').put(movielists.updateMovielistTitle);
-router.route('/movielists/:id/:movie_id').delete(movielists.deleteMovie);
-router.route('/movielists/:id/:movie_id').post(movielists.addMovie);
+router.route('/movielists').get(lists.getLists);
+router.route('/movielists/:id').post(lists.insertList);
+router.route('/movielists/:id').delete(lists.deleteList);
+router.route('/movielists/:id').put(lists.updateListTitle);
+router.route('/movielists/:id/:movie_id').delete(lists.deleteMovie);
+router.route('/movielists/:id/:movie_id').post(lists.addMovie);
 
 router.route('/movies/search').get(tmdb.queryMovies);
 router.route('/movies/:id').get(tmdb.getMovie);
 
-router.route('/director/movies').get(tmdb.getDirectorMovies);
+router.route('/movies/director/:id').get(tmdb.getDirectorMovies);
 
 
 router.route('/*').get(main);

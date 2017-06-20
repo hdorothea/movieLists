@@ -62,6 +62,7 @@ module.exports = {
         data.overview = primaryData.overview;
         data.tagline = primaryData.tagline;
         data.posterPath = assembleImageLink(primaryData.poster_path);
+        data.logoPath = assembleImageLink(primaryData.poster_path, false);
         data.year = primaryData.release_date.substring(0, 4);
       })
       .then(() => requestPromise(creditOptions))
@@ -80,9 +81,7 @@ module.exports = {
   },
 
   getDirectorMovies(req, res) {
-    const directorId = req.query.id;
-    if (!directorId) throw new Error('You need to specify a director');
-    const options = getOptions(`/person/${directorId}/movie_credits`, 'GET');
+    const options = getOptions(`/person/${req.params.id}/movie_credits`, 'GET');
     requestPromise(options)
       .then(dataString => res.json(JSON.parse(dataString)
         .crew

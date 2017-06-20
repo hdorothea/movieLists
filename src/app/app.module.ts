@@ -9,49 +9,69 @@ import { CommonModule } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
-import { MovieListBarComponent } from './movie-list-bar/movie-list-bar.component';
+import { LioliComponent } from './lioli/lioli.component';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component'
-import { MovieListTitleInputComponent } from './movie-list-title-input/movie-list-title-input.component';
-import { MovieListComponent } from './movie-list/movie-list.component';
-import { MovieListTitleElementComponent } from './movie-list-title-element/movie-list-title-element.component';
+import { NewListTitleComponent } from './new-list-title/new-list-title.component';
+import { ListComponent } from './list/list.component';
+import { LioliElementComponent } from './lioli-element/lioli-element.component';
 
-import { MovieListsService, CurrentMovieListService} from './movie-lists.service';
-import { TMDBMovieService, TMDBBaseService, TMDBSearchService, TMDBPersonService } from './tmdb.service';
+import { ListsService} from './lists.service';
+import { CurrentListService} from './current-list.service';
+import { MovieService } from './movie.service';
 import { AutoFocusDirective } from './auto-focus.directive';
 import { MovieComponent } from './movie/movie.component';
 import { MovieSearchComponent } from './movie-search/movie-search.component';
-import { BarViewComponent } from './bar-view/bar-view.component';
-import { ListViewComponent } from './list-view/list-view.component';
-import { MovieListTitleComponent } from './movie-list-title/movie-list-title.component';
-import { MovieListBarImageElementComponent } from './movie-list-bar-image-element/movie-list-bar-image-element.component';
-import { ReadonlyMovieListComponent } from './readonly-movie-list/readonly-movie-list.component';
+import { LioliContainerComponent } from './lioli-container/lioli-container.component';
+import { ListContainerComponent } from './list-container/list-container.component';
+import { ListTitleComponent } from './list-title/list-title.component';
+import { CollageComponent } from './collage/collage.component';
+import { ReadonlyListComponent } from './readonly-list/readonly-list.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { HeaderComponent } from './header/header.component';
+import { ToggleLoginButtonComponent } from './toggle-login-button/toggle-login-button.component';
+import { ListElementComponent } from './list-element/list-element.component';
+import { MovieDetailViewComponent } from './movie-detail-view/movie-detail-view.component';
+import { DirectorLinkComponent } from './director-link/director-link.component';
+import { DirectorListComponent } from './director-list/director-list.component';
+import { ListViewComponent } from './list-view/list-view.component';
+import { ToggleLioliButtonComponent } from './toggle-lioli-button/toggle-lioli-button.component';
+import { ViewComponent } from './view/view.component';
 
 
 const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
-                           {path: ':movielistid', component: ListViewComponent},
+                           {path: 'list/:listid', component: ListContainerComponent},
                            {path: 'detail/:movieid', component: MovieDetailComponent},
-                           {path: ':title/:id/movies', component: ReadonlyMovieListComponent}];
+                           {path: 'list/director/:directorname/:directorid', component: DirectorListComponent}];
 
 @NgModule({
   declarations: [
     AppComponent,
-    MovieListBarComponent,
-    MovieListTitleInputComponent,
-    MovieListTitleElementComponent,
-    MovieListComponent,
+    LioliComponent,
+    NewListTitleComponent,
+    LioliElementComponent,
+    ListComponent,
     AutoFocusDirective,
     MovieComponent,
     MovieDetailComponent,
     MovieSearchComponent,
-    BarViewComponent,
-    ListViewComponent,
-    MovieListTitleComponent,
-    MovieListBarImageElementComponent,
-    ReadonlyMovieListComponent,
+    LioliContainerComponent,
+    ListContainerComponent,
+    ListTitleComponent,
+    CollageComponent,
+    ReadonlyListComponent,
     LoginComponent,
     SignupComponent,
+    HeaderComponent,
+    ToggleLoginButtonComponent,
+    ListElementComponent,
+    MovieDetailViewComponent,
+    DirectorLinkComponent,
+    DirectorListComponent,
+    ListViewComponent,
+    ToggleLioliButtonComponent,
+    ViewComponent,
+    ViewComponent,
   ],
   imports: [
     CommonModule,
@@ -62,7 +82,7 @@ const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
     HttpModule,
     BrowserAnimationsModule,
   ],
-  providers: [MovieListsService, CurrentMovieListService, TMDBMovieService, TMDBBaseService, TMDBSearchService, TMDBPersonService],
+  providers: [ListsService, CurrentListService, MovieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

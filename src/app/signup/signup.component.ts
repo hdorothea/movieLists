@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { validateUsernameUnique, validatePasswordConfirmed } from './validators';
+import { UserService } from '../user.service'
 
 @Component({
   selector: 'app-signup',
@@ -34,12 +35,17 @@ import { validateUsernameUnique, validatePasswordConfirmed } from './validators'
       <input type="submit"/>
     </form>
   `,
+  providers: [UserService],
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  get controls() {
+    return this.signupForm.controls;
+  }
+
+  constructor(private formBuilder: FormBuilder, private userService: UserService) {
     this.signupForm = this.formBuilder.group({
       'username': ['', [Validators.required, Validators.minLength(8)], [validateUsernameUnique]],
       'password': ['', [Validators.required, Validators.minLength(8)]],
@@ -48,19 +54,13 @@ export class SignupComponent implements OnInit {
     );
   }
 
-  get controls() {
-    return this.signupForm.controls;
-  }
-
   ngOnInit() {
-
   }
 
   submit() {
-    // check that the username is unique
-    // check that both the passwords are the same and long enough
-    console.log(this.signupForm);
-
+    if (this.signupForm.valid) {
+      this.userService.signup(this.signupForm.value);
+    }
   }
 
 }

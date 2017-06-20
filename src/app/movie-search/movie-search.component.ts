@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
-import { TMDBSearchService, TMDBBaseService } from '../tmdb.service';
-import { MovieList, CurrentMovieListService } from '../movie-lists.service';
+import { MovieService } from '../movie.service';
+import { CurrentListService } from '../current-list.service';
 import 'rxjs/Rx';
 
 @Component({
@@ -10,21 +10,21 @@ import 'rxjs/Rx';
   template: `
     <div class="search-box" (mouseleave)="results =[]">
         <div id="input-box">
-          <input #searchinput [formControl]="movieQuerry" 
+          <input #searchinput [formControl]="movieQuerry"
           type="text" [placeholder]="activeResult ? activeResult.title: ''"
           (keydown.arrowdown)="incrementActiveIndex()" (keydown.arrowdown)="$event.preventDefault()"
-          (keydown.arrowup)="decrementActiveIndex()" (keydown.arrowup)="$event.preventDefault()" 
-          (keydown.enter)="addMovieToList()"/> 
+          (keydown.arrowup)="decrementActiveIndex()" (keydown.arrowup)="$event.preventDefault()"
+          (keydown.enter)="addMovieToList()"/>
           <img (click)="addMovieToList()" id="search-icon" src='../../assets/search_icon.png'/>
         </div>
-        <div tabindex=-1 class="suggestion-box">   
-          <div class="suggestion-element" (mouseover)="activeIndex = i; searchinput.focus()" #movieOption 
+        <div tabindex=-1 class="suggestion-box">
+          <div class="suggestion-element" (mouseover)="activeIndex = i; searchinput.focus()" #movieOption
           (click)="addMovieToList()"
           (keydown.arrowdown)="incrementActiveIndex()"
           (keydown.arrowup)="decrementActiveIndex()"
-          *ngFor="let item of results; let i=index" [style.background-color]="i === activeIndex ? 'gainsboro' : 'white'"> 
+          *ngFor="let item of results; let i=index" [style.background-color]="i === activeIndex ? 'gainsboro' : 'white'">
             <div class="movie-title"> {{item.title}} <span> {{item.year}} </span> </div>
-            <img class="movie-logo" *ngIf="item.posterPath" [src]="item.posterPath"/> 
+            <img class="movie-logo" *ngIf="item.posterPath" [src]="item.posterPath"/>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@ import 'rxjs/Rx';
 export class MovieSearchComponent implements OnInit {
     results: {
     'title': string,
-    'posterPath': string,
+    'logoPath': string,
     'id': number,
     'year': string,
   }[] = [];
@@ -43,6 +43,18 @@ export class MovieSearchComponent implements OnInit {
   movieQuerry = new FormControl();
 
   private activeIndex = 0;
+
+  constructor(private currentListService: CurrentListService,
+              private movieService: MovieService) {
+  }
+
+  ngOnInit() {
+    this.movieQuerry.valueChanges
+                 .debounceTime(400)
+                 .distinctUntilChanged()
+                 .switchMap((movieQuerry) => this.movieService.query(movieQuerry))
+                 .subscribe((results) => this.results = results, (err) => this.results = []);
+  }
 
   get activeResult() {
     return this.results[this.activeIndex];
@@ -69,19 +81,6 @@ export class MovieSearchComponent implements OnInit {
     this.correctActiveIndex();
   }
 
-  constructor(private currentMovieListService: CurrentMovieListService,
-              private tmdbSearchService: TMDBSearchService) {
-  }
-
-
-  ngOnInit() {
-    this.movieQuerry.valueChanges
-                 .debounceTime(400)
-                 .distinctUntilChanged()
-                 .switchMap((movieQuerry) => this.tmdbSearchService.search(movieQuerry))
-                 .subscribe((results) => this.results = results, (err) => this.results = []);
-  }
-
   reset() {
     this.movieQuerry.setValue('');
     this.activeIndex = 0;
@@ -90,7 +89,7 @@ export class MovieSearchComponent implements OnInit {
 
   addMovieToList() {
     if (this.activeResult) {
-      this.currentMovieListService.addMovie(this.activeResult.id);
+      this.currentListService.addMovie(this.activeResult.id);
     } else {
       console.log('Sorry your search did not turn up any results');
     }

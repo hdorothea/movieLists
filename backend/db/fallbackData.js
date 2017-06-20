@@ -1,5 +1,5 @@
 // these are pregiven Lists which are shown if the user is not logged in
-export const fallbackLists = [{
+const fallbackLists = [{
   title: 'Boring Movies',
   movieIds: [500, 11878, 947, 11400],
   id: '1579812'
@@ -10,3 +10,8 @@ export const fallbackLists = [{
   id: '8394488'
 }
 ];
+
+module.exports = {
+  fallbackLists
+};
+

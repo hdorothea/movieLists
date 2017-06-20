@@ -7,8 +7,8 @@ CREATE SCHEMA movielistsdb;
         password_hash VARCHAR(100) NOT NULL
     );
 
-    CREATE TABLE movielistsdb.movielists (
-        id SERIAL PRIMARY KEY,
+    CREATE TABLE movielistsdb.lists (
+        id VARCHAR(100) NOT NULL,
         owner_id INTEGER,
         name VARCHAR(50) NOT NULL,
         creator_cookie VARCHAR(100)

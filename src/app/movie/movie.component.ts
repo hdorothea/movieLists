@@ -1,35 +1,30 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {TMDBMovieService } from '../tmdb.service';
+import { MovieService } from '../movie.service';
 import { Router } from '@angular/router';
-import { Movie } from '../tmdb.service';
+import { Movie } from '../movie.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-movie',
   template: `
-    <div *ngIf="movie">
-      <img [src]="movie.posterPath" (click)="goToMovieDetail()"/>
-    </div>
+    <img [src]="posterPath | async" (click)="goToMovieDetail()"/>
   `,
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
+  posterPath: Observable<string>;
   @Input()
   movieId;
-
-  movie: Movie;
 
   goToMovieDetail() {
     this.router.navigate([`detail/${this.movieId}`]);
   }
 
-  constructor(public tmdbMovieService: TMDBMovieService, private router: Router) { }
+  constructor(public movieService: MovieService, private router: Router) { }
+
 
   ngOnInit() {
-    const call = () => {
-      this.tmdbMovieService.getMoviePrimaryInfo(this.movieId).then((movie) => this.movie = movie).catch(call);
-    };
-    call();
-
+    this.posterPath = this.movieService.getMoviePosterPath(this.movieId);
+    this.posterPath.subscribe((pp) => console.log(pp));
   }
-
 }
