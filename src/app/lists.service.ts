@@ -28,10 +28,6 @@ export class ListsService {
   private _lists$: BehaviorSubject<List[]>;
   lists$: Observable<List[]>;
 
-  get lists() {
-    return this._lists$.getValue();
-  }
-
   constructor(private http: Http, private currentListService: CurrentListService) {
     this.load();
   }
@@ -62,10 +58,10 @@ export class ListsService {
   add(list: List) {
     this._addBackend(list)
       .then(() => {
-        const newLists = this.lists;
+        const newLists = this._lists$.getValue();
         newLists.push(list);
         this._lists$.next(newLists);
-        this.currentListService.list = list;
+        this.currentListService.setList(list);
       });
   }
 
@@ -76,7 +72,7 @@ export class ListsService {
   delete(listToDelete: List) {
     this._deleteBackend(listToDelete)
       .then(() => {
-      const newLists = this.lists;
+      const newLists = this._lists$.getValue();
        newLists.forEach((list, index) => {
           if (list === listToDelete) {
             newLists.splice(index, 1);
@@ -86,7 +82,7 @@ export class ListsService {
         this._lists$.next(newLists);
 
         if (listToDelete === this.currentListService.list) {
-          this.currentListService.list = this.lists[0];
+          this.currentListService.list = this._lists$.getValue()[0];
         }
       }
       );
