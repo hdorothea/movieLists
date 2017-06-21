@@ -22,7 +22,7 @@ export class DirectorListComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.directorId = params['directorid'];
-      this.list.title = params['title'];
+      this.list.title = params['directorname'];
     });
 
 
