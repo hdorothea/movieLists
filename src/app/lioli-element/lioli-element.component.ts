@@ -26,13 +26,13 @@ export class LioliElementComponent implements OnInit {
   deletable = false;
 
   get currentMovieList() {
-    return this.currentListService.list;
+    return this.currentListService.getList();
   }
 
   constructor(private listsService: ListsService, private currentListService: CurrentListService) { }
 
   setCurrentMovieList() {
-    this.currentListService.list = this.list;
+    this.currentListService.setList(this.list);
 
   }
 
