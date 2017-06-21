@@ -6,7 +6,7 @@ import { ListsService } from '../lists.service';
   template: `
     <div> {{ list.title }} </div>
     <div (click)="addToMovieLists()"> Add to lists </div>
-    <app-list-view [list]="list"></app-list-view>
+    <app-movie *ngFor="let movieId of list.movieIds"></app-movie>
   `,
   styleUrls: ['./readonly-list.component.scss']
 })
