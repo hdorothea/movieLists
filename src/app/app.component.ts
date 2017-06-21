@@ -15,7 +15,7 @@ export class AppComponent {
   showLioli$;
   showLogin$;
 
-  constructor(private showLioliService: ShowLioliService, private showLoginService: ShowLoginService, public listsService: ListsService) {
+  constructor(private showLioliService: ShowLioliService, private showLoginService: ShowLoginService) {
     this.showLogin$ = this.showLoginService.showLogin$;
     this.showLioli$ = this.showLioliService.showLioli$;
   };
