@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { List, ListsService} from '../lists.service';
 import { CurrentListService} from '../current-list.service';
+import { Router } from '@angular/router';
 
 // this component is for when we already have the title of a list
 // and we want to be able to update it on doubleclick and delete it on
@@ -29,10 +30,10 @@ export class LioliElementComponent implements OnInit {
     return this.currentListService.getList();
   }
 
-  constructor(private listsService: ListsService, private currentListService: CurrentListService) { }
+  constructor(private listsService: ListsService, private currentListService: CurrentListService, private router: Router) { }
 
   setCurrentMovieList() {
-    this.currentListService.setList(this.list);
+    this.router.navigate([`list/${this.list.id}`]);
 
   }
 

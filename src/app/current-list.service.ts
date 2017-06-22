@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { List } from './lists.service';
 import { environment } from '../environments/environment';
 import { Http, RequestOptions, Headers } from '@angular/http';
@@ -14,14 +13,13 @@ export class CurrentListService {
 
   setList(list: List) {
     this._list$.next(list);
-    this.router.navigate([`list/${this.getList().id}`]);
   }
 
   getList() {
     return this._list$.getValue();
   }
 
-  constructor(private router: Router, private http: Http) {
+  constructor(private http: Http) {
     this._list$ = new BehaviorSubject(undefined);
     this.list$ = this._list$.asObservable();
   }
@@ -57,7 +55,7 @@ export class CurrentListService {
   }
 
   _removeMovieBackend(movieIdToDelete: number) {
-    return this.http.delete(`${environment.BASE_URL}/movielists/${this.getList().id}/$movieIdToDelete`).toPromise();
+    return this.http.delete(`${environment.BASE_URL}/movielists/${this.getList().id}/${movieIdToDelete}`).toPromise();
   }
 
 

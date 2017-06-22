@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { guid } from './utilities';
 import { environment } from '../environments/environment';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import { CurrentListService } from './current-list.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Router } from '@angular/router';
 
 export interface List {
   'title': String;
@@ -28,14 +28,27 @@ export class ListsService {
   private _lists$: BehaviorSubject<List[]>;
   lists$: Observable<List[]>;
 
-  constructor(private http: Http, private currentListService: CurrentListService) {
+  constructor(private http: Http, private currentListService: CurrentListService, private router: Router) {
     this.load();
+  }
+
+  setCurrentListFromId(id: string) {
+    for (const list of this._lists$.getValue()) {
+      if (list.id === id) {
+        this.currentListService.setList(list);
+        return;
+      }
+    }
+  }
+
+  getLists() {
+    return this._lists$.getValue();
   }
 
   load() {
     this._lists$ = new BehaviorSubject(undefined);
-    this.fetchListsBackend().subscribe((lists) => this._lists$.next(lists));
     this.lists$ = this._lists$.asObservable();
+    this.fetchListsBackend().subscribe((lists) => this._lists$.next(lists));
   }
 
   fetchListsBackend() {
@@ -58,10 +71,10 @@ export class ListsService {
   add(list: List) {
     this._addBackend(list)
       .then(() => {
-        const newLists = this._lists$.getValue();
+        const newLists = this.getLists();
         newLists.push(list);
         this._lists$.next(newLists);
-        this.currentListService.setList(list);
+        this.router.navigate([`list/${list.id}`]);
       });
   }
 
@@ -72,7 +85,7 @@ export class ListsService {
   delete(listToDelete: List) {
     this._deleteBackend(listToDelete)
       .then(() => {
-      const newLists = this._lists$.getValue();
+      const newLists = this.getLists();
        newLists.forEach((list, index) => {
           if (list === listToDelete) {
             newLists.splice(index, 1);
@@ -82,7 +95,7 @@ export class ListsService {
         this._lists$.next(newLists);
 
         if (listToDelete === this.currentListService.getList()) {
-          this.currentListService.setList(this._lists$.getValue()[0]);
+          this.router.navigate([`list/{this.getLists()[0].id}`]);
         }
       }
       );

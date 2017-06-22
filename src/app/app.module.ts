@@ -37,12 +37,14 @@ import { DirectorListComponent } from './director-list/director-list.component';
 import { ListViewComponent } from './list-view/list-view.component';
 import { ToggleLioliButtonComponent } from './toggle-lioli-button/toggle-lioli-button.component';
 import { ViewComponent } from './view/view.component';
-
+import { FormErrorBannerComponent } from './form-error-banner/form-error-banner.component';
+import { HomeListComponent } from './home-list/home-list.component';
 
 const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
-                           {path: 'list/:listid', component: ListContainerComponent},
                            {path: 'detail/:movieid', component: MovieDetailComponent},
-                           {path: 'list/director/:directorname/:directorid', component: DirectorListComponent}];
+                           {path: 'directorlist/:directorname/:directorid', component: DirectorListComponent},
+                           {path: 'list/:listid', component: ListContainerComponent},
+                           {path: '**', pathMatch: 'full', component: HomeListComponent}];
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
     ToggleLioliButtonComponent,
     ViewComponent,
     ViewComponent,
+    FormErrorBannerComponent,
+    HomeListComponent
   ],
   imports: [
     CommonModule,
