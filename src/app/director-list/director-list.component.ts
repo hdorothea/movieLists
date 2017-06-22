@@ -28,7 +28,9 @@ export class DirectorListComponent implements OnInit {
 
     this.movieService
       .getDirectorMovies(this.directorId)
-      .subscribe((movieIds) => this.list.movieIds = movieIds);
+      .subscribe((movieIds) => {
+        this.list.movieIds = movieIds;
+      });
   };
 
 }

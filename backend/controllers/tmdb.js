@@ -47,10 +47,27 @@ module.exports = {
     });
   },
 
+  getDirectors(req, res) {
+    const movieId = req.params.id;
+    const options = getOptions(`/movie/${movieId}/credits`, 'GET');
+    requestPromise(options)
+      .then((creditDataString) => {
+        const creditData = JSON.parse(creditDataString);
+        const directors = creditData
+          .crew
+          .filter(crewMember => crewMember.job === 'Director')
+          .map(director => ({
+            id: director.id,
+            name: director.name
+          }));
+        return res.json(directors);
+      })
+      .catch(err => console.log(err));
+  },
+
   getMovie(req, res) {
     const movieId = req.params.id;
     const options = getOptions(`/movie/${movieId}`, 'GET');
-    const creditOptions = getOptions(`/movie/${movieId}/credits`, 'GET');
     const data = {};
 
     requestPromise(options)
@@ -64,20 +81,8 @@ module.exports = {
         data.posterPath = assembleImageLink(primaryData.poster_path);
         data.logoPath = assembleImageLink(primaryData.poster_path, false);
         data.year = primaryData.release_date.substring(0, 4);
+        res.json(data);
       })
-      .then(() => requestPromise(creditOptions))
-      .then((creditDataString) => {
-        const creditData = JSON.parse(creditDataString);
-        const directors = creditData
-          .crew
-          .filter(crewMember => crewMember.job === 'Director')
-          .map(director => ({
-            id: director.id,
-            name: director.name
-          }));
-        data.directors = directors;
-        return res.json(data);
-      });
   },
 
   getDirectorMovies(req, res) {
