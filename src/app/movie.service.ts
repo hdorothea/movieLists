@@ -39,7 +39,7 @@ export class MovieService {
   }
 
   getDirectors(movieId: number) {
-    return this.http.get(`${environment.BASE_URL}/directors/movie/${movieId}`).map((res) => res.json());
+    return this.http.get(`${environment.BASE_URL}/movies/directors/movie/${movieId}`).map((res) => res.json());
   }
 
 }

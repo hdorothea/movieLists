@@ -26,7 +26,7 @@ router.route('/movies/search').get(tmdb.queryMovies);
 router.route('/movies/:id').get(tmdb.getMovie);
 
 router.route('/movies/director/:id').get(tmdb.getDirectorMovies);
-router.route('/directors/movie/:id').get(tmdb.getDirectors);
+router.route('/movies/directors/movie/:id').get(tmdb.getDirectors);
 
 router.route('/*').get(main);
 
