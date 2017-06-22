@@ -5,15 +5,20 @@ const fallbackLists = require('../db/fallbackData').fallbackLists;
 
 module.exports = {
   getLists(req, res) {
-    db.any(`SELECT (mls.name, array_agg(ms.movie_id))
+    db.any(`SELECT row_to_json((mls.id, mls.name, COALESCE(array_agg(ms.movie_id), ARRAY[]::INT[])))
             FROM movielistsdb.lists mls
             INNER JOIN movielistsdb.movies ms on ms.movielist_id = mls.id
             WHERE owner_id = $1
-            OR creator_cookie =$2
+            OR creator_cookie = $2
             GROUP BY mls.id`, [req.session.userId, req.session.cookie])
       .then((data) => {
         if (data.length > 0) {
-          return res.json(data);
+          const lists = data.map(row => ({
+            id: row.row_to_json.f1,
+            title: row.row_to_json.f2,
+            movieIds: row.row_to_json.f3
+          }));
+          return res.json(lists);
         } else {
           return res.json(fallbackLists);
         }
@@ -22,14 +27,13 @@ module.exports = {
   },
 
   insertList(req, res) {
-    console.log('hallo');
     const ownerId = req.session.userId;
     const list = req.body;
-    db.none('INSERT INTO movielistsdb.lists(id, owner_id, name, creator_cookie) VALUES($1, $2, $3)', [list.id, ownerId, list.title, req.sessionID])
+    db.none('INSERT INTO movielistsdb.lists(id, owner_id, name, creator_cookie) VALUES($1, $2, $3, $4)', [list.id, ownerId, list.title, req.sessionID])
       .then(() => {
         db.tx((t) => {
           const queries = list.movieIds
-            .map(movieId => t.none('INSERT INTO movielistsdb.movies( movielist_id, movie_id) VALUES($1, $2)', [list.id, movieId]));
+            .map(movieId => t.none('INSERT INTO movielistsdb.movies(movielist_id, movie_id) VALUES($1, $2)', [list.id, movieId]));
           return t.batch(queries);
         });
       })
@@ -50,9 +54,8 @@ module.exports = {
   },
 
   deleteMovie(req, res) {
-    db.none('DELETE FROM movielistsdb.movies  WHERE movielist_id = $1 AND movie_id =$2', [req.params.id, req.params.movie_id])
+    db.none(' DELETE FROM movielistsdb.movies WHERE ctid = (SELECT ctid FROM movielistsdb.movies WHERE movielist_id = $1 AND movie_id = $2 LIMIT 1)', [req.params.id, req.params.movie_id])
       .then(() => res.end());
-
   },
 
   addMovie(req, res) {
