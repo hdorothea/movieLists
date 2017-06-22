@@ -11,8 +11,10 @@ router.route('/db/movielists').get(debug.getMovielistsTable);
 router.route('/db/movies').get(debug.getMoviesTable);
 router.route('/db/users').get(debug.getUsersTable);
 router.route('/session').get(debug.getSession);
-router.route('/login').post(user.login);
-router.route('/signup').post(user.signup);
+router.route('/user/login').post(user.login);
+router.route('/user/signup').post(user.signup);
+router.route('/user/checkname').post(user.checkName);
+router.route('/user/checkmatch').post(user.checkMatch);
 router.route('/movielists').get(lists.getLists);
 router.route('/movielists/:id').post(lists.insertList);
 router.route('/movielists/:id').delete(lists.deleteList);
@@ -24,7 +26,7 @@ router.route('/movies/search').get(tmdb.queryMovies);
 router.route('/movies/:id').get(tmdb.getMovie);
 
 router.route('/movies/director/:id').get(tmdb.getDirectorMovies);
-
+router.route('/directors/movie/:id').get(tmdb.getDirectors);
 
 router.route('/*').get(main);
 

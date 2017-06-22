@@ -7,60 +7,63 @@ import { UserService } from '../user.service'
 @Component({
   selector: 'app-signup',
   template: `
-    <form [formGroup]="signupForm" novallidate (ngSubmit)="submit()">
-      <input type="text" formControlName="username" placeholder="username"/>
-      <div *ngIf="controls.username.errors">
-        <div *ngIf="controls.username.errors.required && controls.username.touched">
-          Username is required
-        </div>
-        <div *ngIf="controls.username.errors.minlength && controls.username.touched">
-          Username needs to be at least {{controls.username.errors.minlength['requiredLength']}} characters long
-        </div>
-      </div>
-      <input type="text" formControlName="password" placeholder="password"/>
-      <div *ngIf="controls.password.errors">
-        <div 
-        *ngIf="controls.password.errors.required && controls.password.touched">
-          Password is required
-        </div>
-        <div 
-        *ngIf="controls.password.errors.minlength && controls.password.touched">
-          Password needs to be at least {{controls.password.errors.minlength['requiredLength']}} characters long
-        </div>
-      </div>
-      <input type="text" formControlName="confirmedPassword" placeholder="confirm password"/>
-      <div *ngIf="signupForm.errors && controls.confirmedPassword.touched">
-        Passwords need to match
-      </div>
-      <input type="submit"/>
+    <form class="signup-form"[formGroup]="signupForm" novallidate>
+      <input type="text" formControlName="username" placeholder="username" (keyup.enter)="submit()"/>
+      <input type="text" formControlName="password" placeholder="password"(keyup.enter)="submit()"/>
+      <input type="text" formControlName="confirmedPassword" placeholder="confirm password" (keyup.enter)="submit()"/>
     </form>
+    <app-form-error-banner [errors]="errors"></app-form-error-banner>
   `,
   providers: [UserService],
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
+  errors: Set<string> = new Set();
 
-  get controls() {
-    return this.signupForm.controls;
-  }
 
   constructor(private formBuilder: FormBuilder, private userService: UserService) {
     this.signupForm = this.formBuilder.group({
-      'username': ['', [Validators.required, Validators.minLength(8)], [validateUsernameUnique]],
-      'password': ['', [Validators.required, Validators.minLength(8)]],
-      'confirmedPassword': ['', [Validators.required, Validators.minLength(8)]]
-    }, { validator: validatePasswordConfirmed }
-    );
+      'username': [''],
+      'password': [''],
+      'confirmedPassword': ['']
+    });
   }
 
   ngOnInit() {
   }
 
-  submit() {
-    if (this.signupForm.valid) {
-      this.userService.signup(this.signupForm.value);
+  checkValidity(signupData) {
+    // synchronous checks
+    if (signupData.username.length < 8) {
+      this.errors.add('Username needs to be at least 8 characters long');
     }
+
+    if (signupData.password.length < 8) {
+      this.errors.add('Password needs to be at least 8 characters long');
+    }
+
+    if (signupData.confirmedPassword !== signupData.password) {
+      this.errors.add('Passwords need to match');
+    }
+
   }
 
+  submit() {
+    this.errors = new Set();
+    this.checkValidity(this.signupForm.value);
+    if (this.errors.size < 1) {
+      this.userService.checkUserExists(this.signupForm.value.username)
+        .then((data) => {
+          if (data.exists) {
+            this.errors.add('Username already exists. Pick a different one.');
+          }
+        })
+        .then(() => {
+          if (this.errors.size < 1) {
+            this.userService.signup(this.signupForm.value);
+          }
+        });
+    }
+  }
 }

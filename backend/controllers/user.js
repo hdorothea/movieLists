@@ -26,6 +26,31 @@ module.exports = {
       .catch(err => console.log(err));
   },
 
+  checkMatch(req, res) {
+    // checks if username and password match
+    const [username, passwordHash] = parseUsernamePassword(req);
+    db.any('SELECT * FROM movielistsdb.users WHERE name = $1 AND password_hash = $2 LIMIT 1', [username, passwordHash])
+    .then((data) => {
+      if (data.length <= 0) {
+        res.json({ matches: false });
+      } else {
+        res.json({ matches: true });
+      }
+    });
+  },
+
+  checkName(req, res) {
+    // checks if a username already exists
+    db.any('SELECT * FROM movielistsdb.users WHERE name = $1', [req.body.username])
+    .then((data) => {
+      if (data.length <= 0) {
+        res.json({ exists: false });
+      } else {
+        res.json({ exists: true });
+      }
+    });
+  },
+
   signup(req, res) {
     const [username, passwordHash] = parseUsernamePassword(req);
     db.any('SELECT * FROM movielistsdb.users WHERE name = $1', [username])
@@ -35,7 +60,7 @@ module.exports = {
             errors: ['Username already exists']
           });
         }
-        return db.none('INSERT INTO movielistsdb.users(name, password_hash) VALUES($1, $2)', [username, passwordHash]);    
+        return db.none('INSERT INTO movielistsdb.users(name, password_hash) VALUES($1, $2)', [username, passwordHash]);
       })
       .then(() => res.status(200).json())
       .catch(err => console.log(err));
