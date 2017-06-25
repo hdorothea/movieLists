@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CurrentListService } from '../current-list.service';
 import { Observable } from 'rxjs/Observable';
 import { List, ListsService } from '../lists.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -17,12 +17,19 @@ import { ActivatedRoute } from '@angular/router';
 export class ListComponent implements OnInit {
   list$: Observable<List>;
 
-  constructor(private currentListService: CurrentListService, private listsService: ListsService, private activatedRoute: ActivatedRoute) {
+  constructor(private currentListService: CurrentListService,
+  private listsService: ListsService,
+  private activatedRoute: ActivatedRoute,
+  private router: Router) {
   }
 
   ngOnInit() {
-    this.listsService.lists$.first(value => value !== undefined)
-    .subscribe(lists => this.activatedRoute.params.subscribe((params) => this.listsService.setCurrentListFromId(params['listid'])));
+    this.activatedRoute.params.subscribe((params) => {
+      this.listsService.setCurrentListFromId(params['listid']);
+      if (!this.currentListService.getList()) {
+        this.router.navigate([``]);
+      }
+    });
     this.list$ = this.currentListService.list$;
   }
 }
