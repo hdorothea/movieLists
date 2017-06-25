@@ -29,11 +29,13 @@ export class ListsService {
   lists$: Observable<List[]>;
 
   constructor(private http: Http, private currentListService: CurrentListService, private router: Router) {
+    this._lists$ = new BehaviorSubject([]);
+    this.lists$ = this._lists$.asObservable();
     this.load();
   }
 
   setCurrentListFromId(id: string) {
-    for (const list of this._lists$.getValue()) {
+    for (const list of this.getLists()) {
       if (list.id === id) {
         this.currentListService.setList(list);
         return;
@@ -46,9 +48,7 @@ export class ListsService {
   }
 
   load() {
-    this._lists$ = new BehaviorSubject(undefined);
-    this.lists$ = this._lists$.asObservable();
-    this.fetchListsBackend().subscribe((lists) => this._lists$.next(lists));
+    return this.fetchListsBackend().toPromise().then((lists) => this._lists$.next(lists));
   }
 
   fetchListsBackend() {
@@ -94,8 +94,8 @@ export class ListsService {
 
         this._lists$.next(newLists);
 
-        if (listToDelete === this.currentListService.getList()) {
-          this.router.navigate([`list/{this.getLists()[0].id}`]);
+        if (listToDelete.id === this.currentListService.getList().id) {
+          this.router.navigate([``]);
         }
       }
       );
