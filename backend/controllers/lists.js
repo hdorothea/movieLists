@@ -5,25 +5,39 @@ const fallbackLists = require('../db/fallbackData').fallbackLists;
 
 module.exports = {
   getLists(req, res) {
-    db.any(`SELECT row_to_json((mls.id, mls.name, COALESCE(array_agg(ms.movie_id), ARRAY[]::INT[])))
-            FROM movielistsdb.lists mls
-            INNER JOIN movielistsdb.movies ms on ms.movielist_id = mls.id
-            WHERE owner_id = $1
-            OR creator_cookie = $2
-            GROUP BY mls.id`, [req.session.userId, req.session.cookie])
-      .then((data) => {
-        if (data.length > 0) {
+    if (req.session.userId) {
+      db.any(`SELECT row_to_json((mls.id, mls.name, COALESCE(array_agg(ms.movie_id), ARRAY[]::INT[])))
+              FROM movielistsdb.lists mls
+              INNER JOIN movielistsdb.movies ms on ms.movielist_id = mls.id
+              WHERE owner_id = $1
+              GROUP BY mls.id`, [req.session.userId])
+        .then((data) => {
           const lists = data.map(row => ({
             id: row.row_to_json.f1,
             title: row.row_to_json.f2,
             movieIds: row.row_to_json.f3
           }));
           return res.json(lists);
-        } else {
-          return res.json(fallbackLists);
-        }
-      })
-      .catch(err => console.log(err));
+        });
+    } else {
+      db.any(`SELECT row_to_json((mls.id, mls.name, COALESCE(array_agg(ms.movie_id), ARRAY[]::INT[])))
+              FROM movielistsdb.lists mls
+              INNER JOIN movielistsdb.movies ms on ms.movielist_id = mls.id
+              WHERE creator_cookie = $1
+              GROUP BY mls.id`, [req.sessionID])
+        .then((data) => {
+          if (data.length > 0) {
+            const lists = data.map(row => ({
+              id: row.row_to_json.f1,
+              title: row.row_to_json.f2,
+              movieIds: row.row_to_json.f3
+            }));
+            return res.json(lists);
+          } else {
+            return res.json(fallbackLists);
+          }
+        });
+    }
   },
 
   insertList(req, res) {

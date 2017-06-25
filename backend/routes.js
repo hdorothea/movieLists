@@ -15,6 +15,9 @@ router.route('/user/login').post(user.login);
 router.route('/user/signup').post(user.signup);
 router.route('/user/checkname').post(user.checkName);
 router.route('/user/checkmatch').post(user.checkMatch);
+router.route('/user/logout').post(user.logOut);
+router.route('/user/logedin').get(user.logedIn);
+
 router.route('/movielists').get(lists.getLists);
 router.route('/movielists/:id').post(lists.insertList);
 router.route('/movielists/:id').delete(lists.deleteList);

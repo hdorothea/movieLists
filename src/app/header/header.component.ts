@@ -5,11 +5,12 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
   template: `
     <app-toggle-lioli-button></app-toggle-lioli-button>
     <div> MovieLists </div>
-    <app-toggle-login-button></app-toggle-login-button>
-  `,
+    <app-log-in-out-link></app-log-in-out-link>
+    `,
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
 
   constructor() { }
 

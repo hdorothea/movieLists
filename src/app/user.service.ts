@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { environment } from '../environments/environment';
-import { ListsService} from './lists.service';
+import { ListsService } from './lists.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+
+export interface LogedIn {
+  logedIn: boolean;
+  username: string;
+  userId: number;
+}
 
 const getJsonPostOptions = function () {
   const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -11,34 +19,56 @@ const getJsonPostOptions = function () {
 
 @Injectable()
 export class UserService {
+  _logedIn$: BehaviorSubject<LogedIn>;
+  logedIn$: Observable<LogedIn>;
 
-  constructor(private http: Http, private listsService: ListsService) { }
+  constructor(private http: Http) {
+    this._logedIn$ = new BehaviorSubject({
+      logedIn: false,
+      username: undefined,
+      userId: undefined
+    });
+    this.logedIn$ = this._logedIn$.asObservable();
+    this.fetchLogedIn();
+  }
+
+  fetchLogedIn() {
+    this.http.get(`${environment.BASE_URL}/user/logedIn`).map((response) => response.json())
+    .subscribe((loggedIn) => this._logedIn$.next(loggedIn));
+  }
 
 
   signup(signupData) {
-    console.log(signupData);
     const options = getJsonPostOptions();
-    this.http.get(`${environment.BASE_URL}/user/signup`);
-    this.http.post(`${environment.BASE_URL}/user/signup`, JSON.stringify(signupData), options).toPromise();
+    return this.http.post(`${environment.BASE_URL}/user/signup`, JSON.stringify(signupData), options).toPromise();
   }
 
   login(loginData) {
     const options = getJsonPostOptions();
-    this.http.post(`${environment.BASE_URL}/user/login`, JSON.stringify(loginData), options).subscribe(() => this.listsService.load());
+    return this.http.post(`${environment.BASE_URL}/user/login`, JSON.stringify(loginData), options)
+      .toPromise()
+      .then(() => { this.fetchLogedIn() });
+  }
+
+  logout() {
+    const options = getJsonPostOptions();
+    return this.http.post(`${environment.BASE_URL}/user/logout`, JSON.stringify({}), options)
+      .toPromise()
+      .then(() => { this.fetchLogedIn(); });
   }
 
   checkCorrectPassword(data) {
     const options = getJsonPostOptions();
-    this.http.post(`${environment.BASE_URL}/user/checkMatch`, JSON.stringify(data), options)
-    .map((res) => res.json())
-    .toPromise();
+    return this.http.post(`${environment.BASE_URL}/user/checkmatch`, JSON.stringify(data), options)
+      .map((res) => res.json())
+      .toPromise();
   }
 
   checkUserExists(username: string) {
     const options = getJsonPostOptions();
-    return this.http.post(`${environment.BASE_URL}/user/checkname`, JSON.stringify({username}), options)
-    .map((res) => res.json())
-    .toPromise();
+    return this.http.post(`${environment.BASE_URL}/user/checkname`, JSON.stringify({ username }), options)
+      .map((res) => res.json())
+      .toPromise();
   }
 
 }
