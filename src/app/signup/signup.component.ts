@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { validateUsernameUnique, validatePasswordConfirmed } from './validators';
-import { UserService } from '../user.service'
+import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -11,10 +12,10 @@ import { UserService } from '../user.service'
       <input type="text" formControlName="username" placeholder="username" (keyup.enter)="submit()"/>
       <input type="text" formControlName="password" placeholder="password"(keyup.enter)="submit()"/>
       <input type="text" formControlName="confirmedPassword" placeholder="confirm password" (keyup.enter)="submit()"/>
+      <div class="submit-button" (click)=submit()> Submit </div>
     </form>
     <app-form-error-banner [errors]="errors"></app-form-error-banner>
   `,
-  providers: [UserService],
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
@@ -22,7 +23,7 @@ export class SignupComponent implements OnInit {
   errors: Set<string> = new Set();
 
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.signupForm = this.formBuilder.group({
       'username': [''],
       'password': [''],
@@ -55,6 +56,7 @@ export class SignupComponent implements OnInit {
     if (this.errors.size < 1) {
       this.userService.checkUserExists(this.signupForm.value.username)
         .then((data) => {
+          console.log(data);
           if (data.exists) {
             this.errors.add('Username already exists. Pick a different one.');
           }
@@ -62,6 +64,11 @@ export class SignupComponent implements OnInit {
         .then(() => {
           if (this.errors.size < 1) {
             this.userService.signup(this.signupForm.value);
+          }
+        })
+        .then(() => {
+          if (this.errors.size < 1) {
+            this.router.navigate(['login']);
           }
         });
     }
