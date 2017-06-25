@@ -1,33 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
-import { ShowLoginService } from '../show-login.service';
+import { ListsService } from '../lists.service';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-login',
   template: `
-  <div (focusout)="unsetShowLogin()">
-    <form [formGroup]="loginForm" novallidate (ngSubmit)="submit()">
-        <input formControlName="username" type="text" placeholder="user name"/>
-        <input formControlName="password" type="password" placeholder="password"/>
-        <input type="submit"/>
+    <form [formGroup]="loginForm" novallidate>
+        <input formControlName="username" type="text" placeholder="username" (keyup.enter)="submit()"/>
+        <input formControlName="password" type="password" placeholder="password" (keyup.enter)="submit()"/>
+        <div class="submit-button" (click)=submit()> Submit </div>
     </form>
+    <app-form-error-banner [errors]="errors"></app-form-error-banner>
     <div>
       No account yet?
-      <a routerLink="signup" routerLinkActive="active"> Sign up!</a>
+      <a routerLink="/signup" routerLinkActive="active"> Sign up!</a>
     </div>
-  </div>
-
 
   `,
-  providers: [UserService] ,
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  errors: Set<string> = new Set();
 
-  constructor(private formBuilder: FormBuilder, private userservice: UserService, private showLoginService: ShowLoginService) {
+
+  constructor(private formBuilder: FormBuilder,
+    private userService: UserService,
+    private listsService: ListsService, private router: Router) {
     this.loginForm = this.formBuilder.group({
       'username': [''],
       'password': [''],
@@ -38,11 +40,38 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    this.userservice.login(this.loginForm.value);
+    this.errors = new Set();
+    this.userService.checkUserExists(this.loginForm.value.username)
+      .then((data) => {
+        if (!data.exists) {
+          this.errors.add('Wrong username');
+        } else {
+          return this.userService.checkCorrectPassword(this.loginForm.value);
+        }
+      })
+      .then((data) => {
+        if (this.errors.size < 1) {
+          if (!data.matches) {
+            this.errors.add('Username and password do not match');
+          }
+        }
+      })
+      .then(() => {
+        if (this.errors.size < 1) {
+          return this.userService.login(this.loginForm.value);
+        }
+      })
+      .then(() => {
+        if (this.errors.size < 1) {
+          return this.listsService.load();
+        }
+      })
+      .then((lists) => {
+         if (this.errors.size < 1) {
+          console.log(lists);
+          this.router.navigate([``]);
+         }
+      }
+      );
   }
-
-  unsetShowLogin() {
-    this.showLoginService.setShowLogin(false);
-  }
-
 }
