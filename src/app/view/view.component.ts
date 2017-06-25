@@ -4,8 +4,10 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'app-view',
   template: `
     <app-header></app-header>
-    <app-lioli-container [class]="showLioli? 'show':'hide'"></app-lioli-container>
-    <router-outlet></router-outlet>
+    <div class="content">
+      <app-lioli-container [class]="showLioli? 'show':'hide'"></app-lioli-container>
+      <router-outlet></router-outlet>
+    </div>
   `,
   styleUrls: ['./view.component.scss']
 })

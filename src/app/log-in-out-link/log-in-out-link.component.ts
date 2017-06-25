@@ -7,13 +7,12 @@ import { ListsService } from '../lists.service';
 @Component({
   selector: 'app-log-in-out-link',
   template: `
-    <div *ngIf="(logedIn$ | async).logedIn; else login_link">
-      <div (click)="logOut()"> Logout, {{ (logedIn$ | async).username }} </div>
-    </div>
-    <ng-template #login_link>
-      <a routerLink="login" routerLinkActive="active"> Login </a>
-    </ng-template>
-    <div></div>
+      <div class="logout-button" *ngIf="(logedIn$ | async).logedIn; else login_link">
+        <div (click)="logOut()"> Logout, {{ (logedIn$ | async).username }} </div>
+      </div>
+      <ng-template #login_link>
+        <div class="login-link" routerLink="login" routerLinkActive="active"> Login </div>
+      </ng-template>
   `,
   styleUrls: ['./log-in-out-link.component.scss']
 })

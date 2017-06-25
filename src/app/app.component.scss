@@ -1,38 +1,7 @@
 :host {
     margin-left: auto;
     margin-right: auto;
-    width: 310px;
+    width: 100%;
     display: block;
 }
-
-
-#header {
-    background-color: orange;
-}
-
-.app-title {
-    font-weight: bold;
-    font-size: 2em;
-    line-height: 150%;
-}
-
-#toggle-bar-view-button {
-    display: inline-block;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-
-#toggle-bar-view-button:active{
-    background-color: darkorange;
-}
-
-.show {
-    display: block;
-}
-
-.hide {
-    display: none;
-}
-
 

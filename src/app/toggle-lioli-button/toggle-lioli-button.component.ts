@@ -4,7 +4,7 @@ import { ShowLioliService } from '../show-lioli.service';
 @Component({
   selector: 'app-toggle-lioli-button',
   template: `
-    <div (click)="toggleShowLioli()"> ≡ </div>
+    <div id='toggle-button' (click)="toggleShowLioli()"> ≡ </div>
   `,
   styleUrls: ['./toggle-lioli-button.component.scss']
 })

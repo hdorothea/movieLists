@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-form-error-banner',
   template: `
-    <div *ngFor="let error of errors">{{error}}</div>
+    <div class="error-banner" *ngFor="let error of errors">{{error}}</div>
   `,
   styleUrls: ['./form-error-banner.component.scss']
 })

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
         (click)="setCurrentMovieList()">
       {{list.title}}
       <app-collage [list]="list"></app-collage>
-      <span class="x" [style.visibility]="deletable? 'visible' : 'hidden'" (click)="deleteMovieList()">x</span>
+      <span class="x" [style.visibility]="deletable? 'visible' : 'hidden'" (click)="deleteMovieList()">ⓧ</span>
     </div>
   `,
   styleUrls: ['./lioli-element.component.scss']

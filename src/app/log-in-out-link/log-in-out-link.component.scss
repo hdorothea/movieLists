@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.login-link, .logout-button {
+  padding-bottom: 0.3rem;
+  padding-right: 0.3rem;
+}

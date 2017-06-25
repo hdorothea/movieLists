@@ -7,7 +7,7 @@ import { CurrentListService } from '../current-list.service';
   template: `
     <div class="list-element" (mouseover)="deletable = true" (mouseout)="deletable =  false">
       <app-movie [movieId]="movieId"> </app-movie>
-      <span class="x" [style.visibility]="deletable ? 'visible':'hidden'" (click)="removeMovieFromList(movieId)"> x </span>
+      <span class="x" [style.visibility]="deletable ? 'visible':'hidden'" (click)="removeMovieFromList(movieId)">ⓧ</span>
     </div>
   `,
   styleUrls: ['./list-element.component.scss']

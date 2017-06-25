@@ -8,15 +8,17 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   template: `
-    <form [formGroup]="loginForm" novallidate>
-        <input formControlName="username" type="text" placeholder="username" (keyup.enter)="submit()"/>
-        <input formControlName="password" type="password" placeholder="password" (keyup.enter)="submit()"/>
-        <div class="submit-button" (click)=submit()> Submit </div>
-    </form>
-    <app-form-error-banner [errors]="errors"></app-form-error-banner>
-    <div>
-      No account yet?
-      <a routerLink="/signup" routerLinkActive="active"> Sign up!</a>
+    <div class="host">
+      <form [formGroup]="loginForm" novallidate>
+          <input formControlName="username" type="text" placeholder="username" (keyup.enter)="submit()"/>
+          <input formControlName="password" type="password" placeholder="password" (keyup.enter)="submit()"/>
+          <app-form-error-banner [errors]="errors"></app-form-error-banner>
+          <div class="submit-button" (click)=submit()> Submit </div>
+      </form>
+      <div class="no-account-yet">
+        No account yet?
+        <a routerLink="/signup" routerLinkActive="active"> Sign up!</a>
+      </div>
     </div>
 
   `,

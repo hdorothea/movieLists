@@ -3,9 +3,11 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-header',
   template: `
-    <app-toggle-lioli-button></app-toggle-lioli-button>
-    <div> MovieLists </div>
-    <app-log-in-out-link></app-log-in-out-link>
+    <div class='host'>
+      <app-toggle-lioli-button class="toggle-title"></app-toggle-lioli-button>
+      <div id="app-title" class="toggle-title"> MovieLists </div>
+      <app-log-in-out-link></app-log-in-out-link>
+    </div>
     `,
   styleUrls: ['./header.component.scss']
 })

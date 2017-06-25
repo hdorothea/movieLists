@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-list-view',
   template: `
-    <div *ngIf="list">
+    <div class="host" *ngIf="list">
       <app-list-element *ngFor="let movieId of list.movieIds" [movieId]="movieId"></app-list-element>
     </div>
   `,

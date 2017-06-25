@@ -8,13 +8,15 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-signup',
   template: `
-    <form class="signup-form"[formGroup]="signupForm" novallidate>
-      <input type="text" formControlName="username" placeholder="username" (keyup.enter)="submit()"/>
-      <input type="text" formControlName="password" placeholder="password"(keyup.enter)="submit()"/>
-      <input type="text" formControlName="confirmedPassword" placeholder="confirm password" (keyup.enter)="submit()"/>
-      <div class="submit-button" (click)=submit()> Submit </div>
-    </form>
-    <app-form-error-banner [errors]="errors"></app-form-error-banner>
+    <div class="host">
+      <form class="signup-form"[formGroup]="signupForm" novallidate>
+        <input type="text" formControlName="username" placeholder="username" (keyup.enter)="submit()"/>
+        <input type="password" formControlName="password" placeholder="password"(keyup.enter)="submit()"/>
+        <input type="password" formControlName="confirmedPassword" placeholder="confirm password" (keyup.enter)="submit()"/>
+        <app-form-error-banner [errors]="errors"></app-form-error-banner>
+        <div class="submit-button" (click)=submit()> Submit </div>
+      </form>
+    </div>
   `,
   styleUrls: ['./signup.component.scss']
 })
