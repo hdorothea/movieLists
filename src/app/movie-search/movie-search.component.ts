@@ -24,10 +24,11 @@ import 'rxjs/Rx';
           (keydown.arrowup)="decrementActiveIndex()"
           *ngFor="let item of results; let i=index" [style.background-color]="i === activeIndex ? 'gainsboro' : 'white'">
             <div class="movie-title"> {{item.title}} <span> {{item.year}} </span> </div>
-            <img class="movie-logo" *ngIf="item.posterPath" [src]="item.posterPath"/>
+            <img class="movie-logo" *ngIf="item.logoPath" [src]="item.logoPath"/>
           </div>
         </div>
       </div>
+      <div>
   `,
   styleUrls: ['./movie-search.component.scss']
 })
@@ -52,8 +53,9 @@ export class MovieSearchComponent implements OnInit {
     this.movieQuerry.valueChanges
                  .debounceTime(400)
                  .distinctUntilChanged()
+                 .filter((movieQuerry) => movieQuerry !== '')
                  .switchMap((movieQuerry) => this.movieService.query(movieQuerry))
-                 .subscribe((results) => this.results = results, (err) => this.results = []);
+                 .subscribe((results) => this.results = results.slice(0, 5), (err) => this.results = []);
   }
 
   get activeResult() {
@@ -84,6 +86,7 @@ export class MovieSearchComponent implements OnInit {
   reset() {
     this.movieQuerry.setValue('');
     this.activeIndex = 0;
+    this.results = [];
   }
 
 

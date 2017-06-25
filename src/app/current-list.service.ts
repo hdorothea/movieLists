@@ -20,7 +20,11 @@ export class CurrentListService {
   }
 
   constructor(private http: Http) {
-    this._list$ = new BehaviorSubject(undefined);
+    this._list$ = new BehaviorSubject({
+      title: undefined,
+      movieIds: [],
+      id: undefined
+    });
     this.list$ = this._list$.asObservable();
   }
 

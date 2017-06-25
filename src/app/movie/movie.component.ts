@@ -25,6 +25,5 @@ export class MovieComponent implements OnInit {
 
   ngOnInit() {
     this.posterPath = this.movieService.getMoviePosterPath(this.movieId);
-    this.posterPath.subscribe((pp) => console.log(pp));
   }
 }

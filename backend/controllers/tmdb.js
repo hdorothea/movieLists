@@ -20,7 +20,7 @@ function assembleImageLink(posterPath, poster = true) {
   if (!posterPath) return;
   const posterSize = 'w154';
   const logoSize = 'w45';
-  const IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
+  const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/';
   return `${IMAGE_BASE_URL}${poster ? posterSize : logoSize}${posterPath}`;
 }
 
@@ -82,7 +82,7 @@ module.exports = {
         data.logoPath = assembleImageLink(primaryData.poster_path, false);
         data.year = primaryData.release_date.substring(0, 4);
         res.json(data);
-      })
+      });
   },
 
   getDirectorMovies(req, res) {
@@ -91,6 +91,7 @@ module.exports = {
       .then(dataString => res.json(JSON.parse(dataString)
         .crew
         .filter(crewMovie => crewMovie.job === 'Director')
+        .filter(directorMovie => directorMovie.poster_path)
         .map(directorMovie => directorMovie.id)));
   }
 };
