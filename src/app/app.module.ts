@@ -29,7 +29,6 @@ import { ReadonlyListComponent } from './readonly-list/readonly-list.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HeaderComponent } from './header/header.component';
-import { ToggleLoginButtonComponent } from './toggle-login-button/toggle-login-button.component';
 import { ListElementComponent } from './list-element/list-element.component';
 import { MovieDetailViewComponent } from './movie-detail-view/movie-detail-view.component';
 import { DirectorLinkComponent } from './director-link/director-link.component';
@@ -39,12 +38,15 @@ import { ToggleLioliButtonComponent } from './toggle-lioli-button/toggle-lioli-b
 import { ViewComponent } from './view/view.component';
 import { FormErrorBannerComponent } from './form-error-banner/form-error-banner.component';
 import { HomeListComponent } from './home-list/home-list.component';
+import { LogInOutLinkComponent } from './log-in-out-link/log-in-out-link.component';
+import { UserService } from './user.service';
 
 const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
+                           {path: 'login', component: LoginComponent},
                            {path: 'detail/:movieid', component: MovieDetailComponent},
                            {path: 'directorlist/:directorname/:directorid', component: DirectorListComponent},
                            {path: 'list/:listid', component: ListContainerComponent},
-                           {path: '**', pathMatch: 'full', component: HomeListComponent}];
+                           {path: '', pathMatch: 'full', component: HomeListComponent}];
 
 @NgModule({
   declarations: [
@@ -65,7 +67,6 @@ const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
     LoginComponent,
     SignupComponent,
     HeaderComponent,
-    ToggleLoginButtonComponent,
     ListElementComponent,
     MovieDetailViewComponent,
     DirectorLinkComponent,
@@ -75,7 +76,8 @@ const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
     ViewComponent,
     ViewComponent,
     FormErrorBannerComponent,
-    HomeListComponent
+    HomeListComponent,
+    LogInOutLinkComponent
   ],
   imports: [
     CommonModule,
@@ -86,7 +88,7 @@ const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
     HttpModule,
     BrowserAnimationsModule,
   ],
-  providers: [ListsService, CurrentListService, MovieService],
+  providers: [ListsService, CurrentListService, MovieService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
