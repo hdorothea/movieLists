@@ -31,3 +31,9 @@ input {
     right:0.5em;
     top:25%;
 }
+
+@media (min-width: 700px){
+  .search-box{
+    width:310px;
+  }
+}

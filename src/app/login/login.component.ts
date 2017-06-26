@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   template: `
     <div class="host">
+       <div class="login-title"> Login </div>
       <form [formGroup]="loginForm" novallidate>
           <input formControlName="username" type="text" placeholder="username" (keyup.enter)="submit()"/>
           <input formControlName="password" type="password" placeholder="password" (keyup.enter)="submit()"/>

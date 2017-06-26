@@ -1,12 +1,17 @@
 .host {
-  margin-top: 3rem;
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.login-title {
+   font-size:2rem;
+}
+
 
 form {
+  margin-top: 2rem;
   width:80%;
   display: flex;
   flex-direction: column;
@@ -39,3 +44,11 @@ input:focus {
 .no-account-yet {
   margin-top: 2rem;
 }
+
+@media (min-width: 700px){
+  :host {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+

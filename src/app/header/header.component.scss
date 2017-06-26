@@ -7,9 +7,11 @@
 #app-title {
   font-size: 2rem;
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .toggle-title {
   line-height: 4rem;
 }
-

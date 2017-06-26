@@ -10,3 +10,15 @@
   margin-left: 0.35rem;
   margin-right: 0.35rem;
 }
+
+@media (min-width: 700px){
+  .content {
+    display: flex;
+  }
+
+  .content {
+    margin-left:0;
+    margin-right:0;
+    margin-top: 20px;
+  }
+}
