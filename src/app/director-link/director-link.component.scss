@@ -1,0 +1,15 @@
+.link {
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  color: blue;
+  cursor: pointer;
+}
+
+.director-link{
+  display: inline;
+}
+
+.director-link:focus {
+  outline: none;
+}

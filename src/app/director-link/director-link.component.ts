@@ -6,7 +6,9 @@ import { MovieService } from '../movie.service';
 @Component({
   selector: 'app-director-link',
   template: `
-    <div *ngFor="let director of (directors$ | async)" (click)="goToDirectorMovieList(director.name, director.id)"> {{director.name}}</div>
+    <div class="director-link"
+    *ngFor="let director of (directors$ | async)"
+    (click)="goToDirectorMovieList(director.name, director.id)"> Directed by: <span class="link"> {{director.name}} </span> </div>
   `,
   styleUrls: ['./director-link.component.scss']
 })

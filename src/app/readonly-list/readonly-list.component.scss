@@ -1,0 +1,34 @@
+.readonly-list-title {
+  font-size:2rem;
+  margin-right:1rem;
+}
+
+.container {
+  margin-top:2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.title-container {
+  margin-top:2rem;
+  display: flex;
+  align-items: baseline;
+}
+
+.add-to-lists-button {
+  border-radius: 20px;
+  background-color: orange;
+  color: white;
+  text-align: center;
+  width: 150px;
+  padding: 6px;
+}
+
+
+@media (min-width: 700px){
+  .container {
+    justify-content: flex-start;
+  }
+}
+

@@ -17,8 +17,18 @@
   }
 
   .content {
-    margin-left:0;
-    margin-right:0;
     margin-top: 20px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
+
+@media (min-width: 1200px) {
+  .content {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+}
+
+
