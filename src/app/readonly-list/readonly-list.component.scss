@@ -13,6 +13,7 @@
 .title-container {
   margin-top:2rem;
   display: flex;
+  flex-direction: column;
   align-items: baseline;
 }
 
@@ -23,12 +24,22 @@
   text-align: center;
   width: 150px;
   padding: 6px;
+  margin-top: 1rem;
 }
 
 
 @media (min-width: 700px){
   .container {
     justify-content: flex-start;
+  }
+
+  .title-container {
+    flex-direction: row;
+    align-items: baseline;
+  }
+
+  .add-to-lists-button {
+    margin-top:0;
   }
 }
 
