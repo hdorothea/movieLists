@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { MovieService } from './movie.service';
 
 @Injectable()
 export class CurrentListService {
@@ -19,11 +20,12 @@ export class CurrentListService {
     return this._list$.getValue();
   }
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private movieService: MovieService) {
     this._list$ = new BehaviorSubject({
       title: undefined,
       movieIds: [],
-      id: undefined
+      id: undefined,
+      movieBSs: []
     });
     this.list$ = this._list$.asObservable();
   }
@@ -54,6 +56,7 @@ export class CurrentListService {
       .then(() => {
         const newList = this.getList();
         newList.movieIds.push(movieIdToAdd);
+        newList.movieBSs.push(this.movieService.getMovieBS(movieIdToAdd));
         this._list$.next(newList);
       });
   }
@@ -70,6 +73,7 @@ export class CurrentListService {
         newList.movieIds.forEach((id, index) => {
           if (movieIdToDelete === id) {
             newList.movieIds.splice(index, 1);
+            newList.movieBSs.splice(index, 1);
           }
         });
         this._list$.next(newList);

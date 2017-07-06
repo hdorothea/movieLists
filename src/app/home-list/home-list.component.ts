@@ -13,9 +13,8 @@ export class HomeListComponent implements OnInit {
   constructor(private listsService: ListsService, private router: Router) { }
 
   ngOnInit() {
-    this.listsService.lists$
-    .first(value => value.length > 0)
-    .subscribe((lists) => this.router.navigate([`list/${lists[0].id}`]));
+    this.listsService
+    .setCurrentListFromId('0');
   }
 
 }

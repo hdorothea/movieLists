@@ -4,12 +4,14 @@ import { ListsService } from '../lists.service';
 @Component({
   selector: 'app-readonly-list',
   template: `
-    <div class="title-container">
-      <div class="readonly-list-title"> {{ list.title }} </div>
-      <div class="add-to-lists-button" (click)="addToMovieLists()"> Add to lists </div>
-    </div>
-    <div class="container">
-      <app-movie *ngFor="let movieId of list.movieIds" [movieId]="movieId"></app-movie>
+    <div *ngIf="list">
+      <div class="title-container">
+        <div class="readonly-list-title"> {{ list.title }} </div>
+        <div class="add-to-lists-button" (click)="addToMovieLists()"> Add to lists </div>
+      </div>
+      <div class="container">
+        <app-movie *ngFor="let movieBS of movieBSs" [movieBS]="movieBS"></app-movie>
+      </div>
     </div>
   `,
   styleUrls: ['./readonly-list.component.scss']
@@ -17,6 +19,10 @@ import { ListsService } from '../lists.service';
 export class ReadonlyListComponent implements OnInit {
   @Input()
   list;
+
+  get movieBSs() {
+    return (<any>Object).values(this.list.movieBSs);
+  }
 
   constructor(private listsService: ListsService) {
   }

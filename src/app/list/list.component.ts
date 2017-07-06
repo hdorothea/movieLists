@@ -26,9 +26,6 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       this.listsService.setCurrentListFromId(params['listid']);
-      if (!this.currentListService.getList()) {
-        this.router.navigate([``]);
-      }
     });
     this.list$ = this.currentListService.list$;
   }

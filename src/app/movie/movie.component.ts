@@ -7,14 +7,15 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-movie',
   template: `
-    <img [src]="posterPath | async" (click)="goToMovieDetail()"/>
+    <img [src]="posterPath" (click)="goToMovieDetail()"/>
   `,
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
-  posterPath: Observable<string>;
-  @Input()
   movieId;
+  posterPath;
+  @Input()
+  movieBS;
 
   goToMovieDetail() {
     this.router.navigate([`detail/${this.movieId}`]);
@@ -24,6 +25,9 @@ export class MovieComponent implements OnInit {
 
 
   ngOnInit() {
-    this.posterPath = this.movieService.getMoviePosterPath(this.movieId);
+    this.movieBS.subscribe((movie) => {
+      this.movieId = movie.id;
+      this.posterPath = movie.posterPath;
+    });
   }
 }

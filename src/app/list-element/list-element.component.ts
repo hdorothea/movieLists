@@ -6,25 +6,27 @@ import { CurrentListService } from '../current-list.service';
   selector: 'app-list-element',
   template: `
     <div class="list-element" (mouseover)="deletable = true" (mouseout)="deletable =  false">
-      <app-movie [movieId]="movieId"> </app-movie>
-      <span class="x" [style.visibility]="deletable ? 'visible':'hidden'" (click)="removeMovieFromList(movieId)">ⓧ</span>
+      <app-movie [movieBS]="movieBS"> </app-movie>
+      <span class="x" [style.visibility]="deletable ? 'visible':'hidden'" (click)="removeMovieFromList()">ⓧ</span>
     </div>
   `,
   styleUrls: ['./list-element.component.scss']
 })
 export class ListElementComponent implements OnInit {
-  @Input()
   movieId;
+  @Input()
+  movieBS;
 
   deletable = false;
 
   constructor(private currentListService: CurrentListService) { }
 
   ngOnInit() {
+    this.movieBS.subscribe((movie) =>  {this.movieId = movie.id; });
   }
 
-  removeMovieFromList(movieId: number) {
-    this.currentListService.removeMovie(movieId);
+  removeMovieFromList() {
+    this.currentListService.removeMovie(this.movieId);
 
   }
 
