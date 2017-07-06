@@ -1,5 +1,5 @@
 // callbacks for user login/signup managment
-const passwordHashFunc = require('password-hash');
+const passwordHashMod = require('password-hash');
 const db = require('../db/dbConnect');
 
 
@@ -9,12 +9,11 @@ function parseUsernamePassword(req) {
 
 module.exports = {
   login(req, res) {
-    const [username, passwordHash] = parseUsernamePassword(req);
-    db.any('SELECT * FROM movielistsdb.users WHERE name = $1 AND password_hash = $2 LIMIT 1', [username, passwordHash])
+    const [username, password] = parseUsernamePassword(req);
+    db.any('SELECT * FROM movielistsdb.users WHERE name = $1 LIMIT 1', [username])
       .then((data) => {
-        if (data.length > 0) {
+        if (data.length > 0 && passwordHashMod.verify(password, data[0].password_hash)) {
           req.session.username = data[0].name;
-          req.session.passwordHash = data[0].passwordHash;
           req.session.userId = data[0].id;
           return res.send({});
         }
@@ -38,16 +37,16 @@ module.exports = {
 
   checkMatch(req, res) {
     // checks if username and password match
-    const [username, passwordHash] = parseUsernamePassword(req);
-    if (!username || !passwordHash) {
+    const [username, password] = parseUsernamePassword(req);
+    if (!username || !password) {
       res.json({});
     }
-    db.any('SELECT * FROM movielistsdb.users WHERE name = $1 AND password_hash = $2 LIMIT 1', [username, passwordHash])
+    db.any('SELECT * FROM movielistsdb.users WHERE name = $1 LIMIT 1', [username])
     .then((data) => {
-      if (data.length <= 0) {
-        res.json({ matches: false });
-      } else {
+      if (data.length > 0 && passwordHashMod.verify(password, data[0].password_hash)) {
         res.json({ matches: true });
+      } else {
+        res.json({ matches: false });
       }
     });
   },
@@ -65,7 +64,8 @@ module.exports = {
   },
 
   signup(req, res) {
-    const [username, passwordHash] = parseUsernamePassword(req);
+    const [username, password] = parseUsernamePassword(req);
+    const passwordHash = passwordHashMod.generate(password);
     db.one('INSERT INTO movielistsdb.users(name, password_hash) VALUES($1, $2) RETURNING id', [username, passwordHash])
     .then((data) => {
       const userId = data.id;
