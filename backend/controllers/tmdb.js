@@ -76,7 +76,6 @@ module.exports = {
         data.id = primaryData.id;
         data.title = primaryData.title;
         data.overview = primaryData.overview;
-        data.overview = primaryData.overview;
         data.tagline = primaryData.tagline;
         data.posterPath = assembleImageLink(primaryData.poster_path);
         data.logoPath = assembleImageLink(primaryData.poster_path, false);

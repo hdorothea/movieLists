@@ -71,7 +71,6 @@ export class LoginComponent implements OnInit {
       })
       .then((lists) => {
          if (this.errors.size < 1) {
-          console.log(lists);
           this.router.navigate([``]);
          }
       }

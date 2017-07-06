@@ -59,7 +59,6 @@ export class SignupComponent implements OnInit {
     if (this.errors.size < 1) {
       this.userService.checkUserExists(this.signupForm.value.username)
         .then((data) => {
-          console.log(data);
           if (data.exists) {
             this.errors.add('Username already exists. Pick a different one.');
           }
