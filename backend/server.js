@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const sessions = require('express-session');
 const routes = require('./routes');
 const RateLimit = require('express-rate-limit');
+const config = require('./config');
 
 const app = express();
 app.enable('trust proxy');
@@ -23,9 +24,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use(cookieParser(process.env.SESSIONS_SECRET));
+app.use(cookieParser(process.env.SESSIONS_SECRET || config.SESSIONS_SECRET));
 app.use(sessions({
-  secret: process.env.SESSIONS_SECRET,
+  secret: (process.env.SESSIONS_SECRET || config.SESSIONS_SECRET),
   cookie: {},
   resave: true,
   saveUninitialized: true,
@@ -33,4 +34,4 @@ app.use(sessions({
 
 app.use('/movies/', apiLimiter);
 app.use('/', routes);
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || config.PORT);

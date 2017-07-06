@@ -2,10 +2,11 @@
 const request = require('request');
 const requestPromise = require('request-promise-native');
 const urlJoin = require('url-join');
+const config = require('../config');
 
 function getOptions(rURL, method, body = {}, queries = {}) {
   const qs = queries;
-  qs.api_key = process.env.API_KEY;
+  qs.api_key = (process.env.API_KEY || config.API_KEY);
   const BASE_URL = 'https://api.themoviedb.org/3/';
   const options = {
     method,
