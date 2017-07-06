@@ -8,7 +8,7 @@ import 'rxjs/Rx';
 @Component({
   selector: 'app-movie-search',
   template: `
-    <div class="search-box" (mouseleave)="results =[]">
+    <div class="search-box" (mouseleave)="reset()">
         <div id="input-box">
           <input #searchinput [formControl]="movieQuerry"
           type="text" [placeholder]="activeResult ? activeResult.title: ''"
@@ -48,6 +48,7 @@ export class MovieSearchComponent implements OnInit {
   constructor(private currentListService: CurrentListService,
               private movieService: MovieService) {
   }
+
 
   ngOnInit() {
     this.movieQuerry.valueChanges
