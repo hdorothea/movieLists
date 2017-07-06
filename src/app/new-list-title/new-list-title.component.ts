@@ -6,7 +6,7 @@ import { CurrentListService } from '../current-list.service';
   selector: 'app-new-list-title',
   template: `
     <div class="title-input">
-      <input #newListTitleInputEl (keyup.enter)="addNewList(newListTitleInputEl)" placeholder="New List"/>
+      <input maxlength=26 #newListTitleInputEl (keyup.enter)="addNewList(newListTitleInputEl)" placeholder="New List"/>
       <span (click)=addNewList(newListTitleInputEl) id="plus-icon">+</span>
     <div>
   `,

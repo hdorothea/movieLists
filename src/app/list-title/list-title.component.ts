@@ -6,7 +6,7 @@ import { List } from '../lists.service';
 @Component({
   selector: 'app-list-title',
   template: `
-    <input
+    <input maxlength=26
     #listTitle
     [value]="(list$ | async)?.title"
     (dblclick)="this.editable = true"
