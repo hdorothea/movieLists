@@ -46,7 +46,7 @@ const appRoutes: Routes = [{path: 'signup', component: SignupComponent},
                            {path: 'detail/:movieid', component: MovieDetailComponent},
                            {path: 'directorlist/:directorname/:directorid', component: DirectorListComponent},
                            {path: 'list/:listid', component: ListContainerComponent},
-                           {path: '', component: HomeListComponent}];
+                           {path: '**', component: HomeListComponent}];
 
 @NgModule({
   declarations: [
