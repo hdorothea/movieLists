@@ -8,4 +8,13 @@
 .login-link, .logout-button {
   padding-bottom: 0.3rem;
   padding-right: 0.3rem;
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  color: blue;
+  cursor: pointer;
+}
+
+.login-link:hover, .logout-button:hover {
+  color: purple;
 }

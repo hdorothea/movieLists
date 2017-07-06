@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
       </form>
       <div class="no-account-yet">
         No account yet?
-        <a routerLink="/signup" routerLinkActive="active"> Sign up!</a>
+        <a class="signup-link" routerLink="/signup" routerLinkActive="active"> Sign up!</a>
       </div>
     </div>
 

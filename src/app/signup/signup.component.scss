@@ -35,6 +35,10 @@ input {
   padding: 6px;
 }
 
+.submit-button:hover {
+  background-color: darkorange;
+}
+
 input:focus {
     outline: none;
     border: 0;

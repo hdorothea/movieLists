@@ -35,6 +35,10 @@ input {
   padding: 6px;
 }
 
+.submit-button:hover {
+  background-color: darkorange;
+}
+
 input:focus {
     outline: none;
     border: 0;
@@ -43,6 +47,11 @@ input:focus {
 
 .no-account-yet {
   margin-top: 2rem;
+}
+
+.signup-link:hover {
+  color: purple;
+
 }
 
 @media (min-width: 700px){
