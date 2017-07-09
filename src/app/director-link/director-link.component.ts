@@ -6,9 +6,14 @@ import { MovieService } from '../movie.service';
 @Component({
   selector: 'app-director-link',
   template: `
-    <div class="director-link"
-    *ngFor="let director of (directors$ | async)"
-    (click)="goToDirectorMovieList(director.name, director.id)"> Directed by: <span class="link"> {{director.name}} </span> </div>
+    <div *ngIf="directors && directors.length > 0" class="director-link"> Directed by:
+      <div *ngFor="let director of directors">
+        <span class="link" (click)="goToDirectorMovieList(director.name, director.id)">
+          {{director.name}}
+        </span>
+        &nbsp;
+      </div>
+    </div>
   `,
   styleUrls: ['./director-link.component.scss']
 })
@@ -16,13 +21,15 @@ export class DirectorLinkComponent implements OnInit {
   @Input()
   movieId;
 
-  directors$;
+  directors;
 
   constructor(private router: Router, private movieService: MovieService) {
   }
 
   ngOnInit() {
-    this.directors$ = this.movieService.getDirectors(this.movieId);
+    this.directors = this.movieService
+    .getDirectors(this.movieId)
+    .subscribe(directors => {this.directors = directors; });
   }
 
   goToDirectorMovieList(name, id) {

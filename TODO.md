@@ -1,7 +1,7 @@
 ​
 # to do
 * <strike> buttons need to become gray on hover </strike>
-* directed by needs to appear together with the director links
+* <strike> directed by needs to appear together with the director links </strik>
 * <strike> list name seems to be fixed size on mobile </strike>
 * <strike> go to home when you click on header </strike>
 * <strike> search box needs to become empty on blur </strike>

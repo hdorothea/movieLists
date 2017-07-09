@@ -6,10 +6,16 @@
   cursor: pointer;
 }
 
-.director-link{
+.link:hover {
+  color: purple;
+}
+
+div {
   display: inline;
 }
 
-.director-link:focus {
-  outline: none;
+.whitespace {
+  color: black;
+  cursor: auto;
+  text-decoration: none !important;
 }
