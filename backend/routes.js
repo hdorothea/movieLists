@@ -1,5 +1,4 @@
 const express = require('express');
-const debug = require('./controllers/debug');
 const main = require('./controllers/main');
 const user = require('./controllers/user');
 const lists = require('./controllers/lists');
@@ -7,10 +6,6 @@ const tmdb = require('./controllers/tmdb');
 
 const router = express.Router();
 
-router.route('/db/movielists').get(debug.getMovielistsTable);
-router.route('/db/movies').get(debug.getMoviesTable);
-router.route('/db/users').get(debug.getUsersTable);
-router.route('/session').get(debug.getSession);
 router.route('/user/login').post(user.login);
 router.route('/user/signup').post(user.signup);
 router.route('/user/checkname').post(user.checkName);
