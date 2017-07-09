@@ -18,7 +18,7 @@ export class CollageComponent implements OnInit {
   list;
 
   get movieBSs() {
-    return (<any>Object).values(this.list.movieBSs).slice(0, 4);
+    return this.list.movieBSs.slice(0, 4);
   }
 
   constructor(private movieService: MovieService) { }

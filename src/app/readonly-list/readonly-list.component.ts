@@ -10,7 +10,7 @@ import { ListsService } from '../lists.service';
         <div class="add-to-lists-button" (click)="addToMovieLists()"> Add to lists </div>
       </div>
       <div class="container">
-        <app-movie *ngFor="let movieBS of movieBSs" [movieBS]="movieBS"></app-movie>
+        <app-movie *ngFor="let movieBS of list.movieBSs" [movieBS]="movieBS"></app-movie>
       </div>
     </div>
   `,
@@ -19,10 +19,6 @@ import { ListsService } from '../lists.service';
 export class ReadonlyListComponent implements OnInit {
   @Input()
   list;
-
-  get movieBSs() {
-    return (<any>Object).values(this.list.movieBSs);
-  }
 
   constructor(private listsService: ListsService) {
   }
