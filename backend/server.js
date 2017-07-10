@@ -16,6 +16,13 @@ const apiLimiter = new RateLimit({
   delayMs: 250
 });
 
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    res.redirect((process.env.BASE_URL || config.BASE_URL) + req.url);
+  } else {
+    next();
+  }
+});
 
 app.use(express.static(`${__dirname}/../dist`));
 
