@@ -11,7 +11,7 @@ import 'rxjs/Rx';
     <div class="search-box" (mouseleave)="reset()">
         <div id="input-box">
           <input #searchinput [formControl]="movieQuerry"
-          type="text" [placeholder]="activeResult ? activeResult.title: ''"
+          type="text" [placeholder]="activeResult ? activeResult.title: 'Add a movie'"
           (keydown.arrowdown)="incrementActiveIndex()" (keydown.arrowdown)="$event.preventDefault()"
           (keydown.arrowup)="decrementActiveIndex()" (keydown.arrowup)="$event.preventDefault()"
           (keydown.enter)="addMovieToList()"/>

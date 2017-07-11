@@ -3,9 +3,16 @@
 }
 
 input {
-    font-family:inherit;
+    border:0;
+    border-bottom: 5px solid orange;
     font-size:inherit;
-    width:100%;
+    width: 100%;
+}
+
+input:focus {
+    outline: none;
+    border: 0;
+    border-bottom: 5px solid gray;
 }
 
 .suggestion-box {
@@ -29,7 +36,7 @@ input {
     width: 1em;
     position: absolute;
     right:0.5em;
-    top:25%;
+    top:7%;
 }
 
 @media (min-width: 700px){
