@@ -8,7 +8,7 @@ import { ListsService } from '../lists.service';
   selector: 'app-log-in-out-link',
   template: `
       <div class="logout-button" *ngIf="(logedIn$ | async).logedIn; else login_link">
-        <div (click)="logOut()"> Logout, {{ (logedIn$ | async).username }} </div>
+        <div (click)="logOut()"> Logout </div>
       </div>
       <ng-template #login_link>
         <div class="login-link" routerLink="login" routerLinkActive="active"> Login </div>
@@ -29,7 +29,8 @@ export class LogInOutLinkComponent implements OnInit {
   logOut() {
     this.userService.logout()
     .then(() => this.listsService.load())
-    .then(() => {this.router.navigate([``]); });
+    .then(() => {
+      this.router.navigate(['home']); });
   }
 
 }
