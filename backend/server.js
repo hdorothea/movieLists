@@ -17,8 +17,8 @@ const apiLimiter = new RateLimit({
 });
 
 app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    res.redirect((process.env.BASE_URL || config.BASE_URL) + req.url);
+  if (req.headers['x-forwarded-proto'] !== 'https' && process.env.BASE_URL) {
+    res.redirect((process.env.BASE_URL) + req.url);
   } else {
     next();
   }
