@@ -43,15 +43,17 @@ export class ListsService {
 
   setCurrentListFromId(id: string) {
     this.firstLists
-    .then(() => {
-      for (const list of this.getLists()) {
-        if (list.id === id) {
-          this.currentListService.setList(list);
-          return;
+      .then(() => {
+        if (this.getLists().length > 0) {
+          for (const list of this.getLists()) {
+            if (list.id === id) {
+              this.currentListService.setList(list);
+              return;
+            }
+          }
+          this.router.navigate([`list/${this.getLists()[0].id}`]);
         }
-      }
-      this.router.navigate([`list/${this.getLists()[0].id}`]);
-    });
+      });
   }
 
   getLists() {
