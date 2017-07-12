@@ -1,28 +1,50 @@
 # MovieLists
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+An Application to make List of movies. Written to learn Angular. Using Angular, the Angular CLI, RxJS, Node, Express, PostgreSQL and the TMDb API. Currently still somewhat in development but useable. You can see it running [here](https://movielistsdh.herokuapp.com/list/65433da7-f776-2771-ec7b-ffc796f7ab46). 
 
-## Development server
+## Running locally
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* `clone` the repository.
+* Get yourself a [TMDb API key](https://www.themoviedb.org/faq/api?language=en). Add the API key to the config file in `./backend/`.
+* Install PostgreSQL. Create a database. Add the database url to the config file in `./backend/`. Run: `psql -f backend/db/create_tables.sql -U yourpsqlusername -d nameofthedatabase`.
+* Build the app by runing `ng build --aot`
+* Run `node backend/server.js`. Go to `http://localhost:7000/`.
 
-## Code scaffolding
+## Front-end Architecture 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+### Components
 
-## Build
+There are two not-routed top-level components:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+* the header component
+* the List of Lists(lioli) container
 
-## Running unit tests
+And then there are the routed top level components:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* the list-container component
+* the director-list component
+* the movie-detail component
+* the signup/login components
 
-## Running end-to-end tests
+### Services
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+There are three important services
 
-## Further help
+* the lists service, for operations on the lists level (fetching the Lists, adding a new List, setting the currentList etc.). A list contains an array of BehaviorSubjects fetching the data of movies contained in it. This architecture allows for reactive components and prevents the need to refetch movie data for different views.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+* the currentList service, for operations on the single list level (changing the name of the list, adding a new movie etc.)
+
+* the movie service, for getting movie data. (things related to the TMDb API).
+
+Some of the Front-end Architecture decisions are inspired by this [excellent article](https://medium.com/curated-by-versett/building-maintainable-angular-2-applications-5b9ec4b463a1).
+
+
+
+
+
+
+
+
+
+
+
