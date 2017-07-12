@@ -5,9 +5,11 @@
 
 * {
     font-family: 'Raleway', sans-serif;
-    -webkit-font-smoothing: subpixel-antialiased;
 }
 
+body {
+  -webkit-font-smoothing: subpixel-antialiased;
+}
 
 *, *:before, *:after {
     box-sizing: border-box;
