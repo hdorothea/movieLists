@@ -7,8 +7,9 @@
     font-family: 'Raleway', sans-serif;
 }
 
-body {
+* {
   -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-text-stroke: 1px transparent;
 }
 
 *, *:before, *:after {
