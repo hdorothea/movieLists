@@ -1,16 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~reset-css/reset.css';
-@import url('https://fonts.googleapis.com/css?family=Quicksand');
-@import url('https://fonts.googleapis.com/css?family=Raleway');
 
 * {
     font-family: 'Raleway', sans-serif;
 }
 
-* {
-  -webkit-font-smoothing: subpixel-antialiased;
-  -webkit-text-stroke: 1px transparent;
-}
 
 *, *:before, *:after {
     box-sizing: border-box;
