@@ -4,7 +4,7 @@ import { ListsService } from '../lists.service';
 @Component({
   selector: 'app-readonly-list',
   template: `
-    <div *ngIf="list">
+    <div class="host" *ngIf="list">
       <div class="title-container">
         <div class="readonly-list-title"> {{ list.title }} </div>
         <div class="add-to-lists-button" (click)="addToMovieLists()"> Add to lists </div>
